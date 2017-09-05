@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>IP address</title>
     </head>
 
@@ -13,5 +14,9 @@ locale: <?php echo htmlspecialchars($this->getAttribute('locale')); ?>
 
 preferred language: <?php echo htmlspecialchars($this->getAttribute('preferred_language')); ?>
         </pre>
+
+        <br />
+
+        <a href="https://skobk.in/">skobk.in</a>
     </body>
 </html>
