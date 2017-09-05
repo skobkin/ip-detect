@@ -1,0 +1,21 @@
+{
+    "name": "skobkin/ip-detect",
+    "license": "MIT",
+    "type": "project",
+    "description": "Minimalistic IP remote IP detector application",
+    "homepage": "http://ip.skobk.in/",
+    "authors": [
+        {
+            "name": "Alexey Skobkin",
+            "email": "skobkin-ru@ya.ru",
+            "homepage": "https://skobk.in/"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "App\\": "src/" }
+    },
+    "require": {
+        "symfony/http-foundation": "^3.3",
+        "slim/php-view": "^2.2"
+    }
+}
