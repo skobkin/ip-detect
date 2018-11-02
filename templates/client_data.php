@@ -22,6 +22,6 @@ preferred language: <?php echo htmlspecialchars($this->getAttribute('preferred_l
             <li><a href="plain">Plain text (only IP address)</a></li>
         </ul>
 
-        <a href="https://skobk.in/">skobk.in</a>
+        <a href="https://skobk.in/">skobk.in</a> (<a href="https://bitbucket.org/skobkin/ip-detect/">src</a>)
     </body>
 </html>
