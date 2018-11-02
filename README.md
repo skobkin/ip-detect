@@ -1,6 +1,8 @@
 # Minimalistic IP address detector app
 
 [![Codeship Status for skobkin/ip-detect](https://app.codeship.com/projects/b2375af0-c0e5-0136-9e74-26b840c766cc/status?branch=master)](https://app.codeship.com/projects/313611)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/b/skobkin/ip-detect/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/b/skobkin/ip-detect/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/b/skobkin/ip-detect/badges/coverage.png?b=master)](https://scrutinizer-ci.com/b/skobkin/ip-detect/?branch=master)
 
 [Try it](https://ip.skobk.in/) ([JSON](https://ip.skobk.in/json), [Plaintext](https://ip.skobk.in/plain))
 
