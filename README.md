@@ -1,6 +1,8 @@
 # Minimalistic IP address detector app
 
-[Try it](http://ip.skobk.in/) ([JSON vesion](http://ip.skobk.in/json))
+[![Codeship Status for skobkin/ip-detect](https://app.codeship.com/projects/b2375af0-c0e5-0136-9e74-26b840c766cc/status?branch=master)](https://app.codeship.com/projects/313611)
+
+[Try it](https://ip.skobk.in/) ([JSON](https://ip.skobk.in/json), [Plaintext](https://ip.skobk.in/plain))
 
 ## Installation
 
