@@ -33,6 +33,8 @@ final class AppKernel
         // It's a kind of routing you know...
         if ('/json' === $request->getPathInfo()) {
             $format = DetectorController::FORMAT_JSON;
+        } elseif ('/plain' === $request->getPathInfo()) {
+            $format = DetectorController::FORMAT_PLAIN;
         } elseif ('/' === $request->getPathInfo()) {
             $format = DetectorController::FORMAT_HTML;
         } else {
