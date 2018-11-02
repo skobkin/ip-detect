@@ -15,7 +15,12 @@ locale: <?php echo htmlspecialchars($this->getAttribute('locale')); ?>
 preferred language: <?php echo htmlspecialchars($this->getAttribute('preferred_language')); ?>
         </pre>
 
-        <br />
+        <h2>Alternative formats:</h2>
+
+        <ul>
+            <li><a href="json">JSON</a></li>
+            <li><a href="plain">Plain text (only IP address)</a></li>
+        </ul>
 
         <a href="https://skobk.in/">skobk.in</a>
     </body>
