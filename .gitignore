@@ -1,2 +1,5 @@
 /.idea
-/vendor
+/.gocache/
+/ .cache/
+/ .gomodcache/
+/ip-detect

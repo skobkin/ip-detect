@@ -1,0 +1,7 @@
+.idea
+.dockerignore
+.drone.yml
+.gitignore
+.golangci.yml
+Dockerfile
+README.md

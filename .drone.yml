@@ -1,0 +1,41 @@
+kind: pipeline
+name: default
+type: docker
+
+steps:
+  - name: lint
+    image: golangci/golangci-lint:v1.59-alpine
+    environment:
+      XDG_CACHE_HOME: /tmp/.cache
+    commands:
+      - golangci-lint run
+
+  - name: test
+    image: golang:1.25
+    environment:
+      GOCACHE: /tmp/.gocache
+    commands:
+      - go test ./...
+
+  - name: build
+    image: golang:1.25
+    environment:
+      GOCACHE: /tmp/.gocache
+    commands:
+      - CGO_ENABLED=0 go build -trimpath -o ip-detect ./cmd/ip-detect
+
+  - name: docker
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: DOCKER_LOGIN
+      password:
+        from_secret: DOCKER_TOKEN
+      repo:
+        from_secret: DOCKER_REPO
+      dockerfile: Dockerfile
+      tags:
+        - ${DRONE_TAG}
+    when:
+      event:
+        - tag

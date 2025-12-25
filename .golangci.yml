@@ -1,0 +1,46 @@
+version: 2
+
+run:
+  go: "1.25"
+  timeout: 2m
+  tests: false
+
+linters:
+  disable-all: true
+  enable:
+    - govet
+    - staticcheck
+    - gocritic
+    - errcheck
+    - ineffassign
+    - unused
+    - bodyclose
+    - errname
+    - gosec
+    - revive
+    - sloglint
+    - tparallel
+    - unconvert
+    - prealloc
+    - goconst
+    - gosmopolitan
+    - wsl_v5
+    - nolintlint
+    - misspell
+    - contextcheck
+    - unparam
+    - nilerr
+    - errorlint
+    - predeclared
+    - mnd
+    - wrapcheck
+    - makezero
+    - nolintlint
+    - noctx
+    - nlreturn
+    - misspell
+    - sloglint
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
