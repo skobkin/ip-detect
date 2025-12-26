@@ -49,8 +49,15 @@ type ResolverConfig struct {
 
 // MetadataConfig toggles extra response fields.
 type MetadataConfig struct {
-	IncludeUserAgent bool
-	IncludeTimestamp bool
+	IncludeUserAgent         bool
+	IncludeTimestamp         bool
+	IncludeConnection        bool
+	IncludeTLS               bool
+	IncludeClientPreferences bool
+	IncludeOriginContext     bool
+	IncludeClientHints       bool
+	IncludeProxyDetails      bool
+	IncludeRequestHeaders    bool
 }
 
 // LoggingConfig customizes application logging.
@@ -77,8 +84,15 @@ func Default() Config {
 			LookupTimeout:    defaultLookupTimeout,
 		},
 		Metadata: MetadataConfig{
-			IncludeUserAgent: true,
-			IncludeTimestamp: true,
+			IncludeUserAgent:         true,
+			IncludeTimestamp:         true,
+			IncludeConnection:        true,
+			IncludeTLS:               true,
+			IncludeClientPreferences: true,
+			IncludeOriginContext:     true,
+			IncludeClientHints:       true,
+			IncludeProxyDetails:      false,
+			IncludeRequestHeaders:    false,
 		},
 		Logging: LoggingConfig{
 			Level:  slog.LevelInfo,
@@ -184,6 +198,69 @@ func Load() (Config, error) {
 		}
 
 		cfg.Metadata.IncludeTimestamp = b
+	}
+
+	if v := os.Getenv("IPD_INCLUDE_CONNECTION"); v != "" {
+		b, err := strconv.ParseBool(v)
+		if err != nil {
+			return Config{}, fmt.Errorf("invalid IPD_INCLUDE_CONNECTION: %w", err)
+		}
+
+		cfg.Metadata.IncludeConnection = b
+	}
+
+	if v := os.Getenv("IPD_INCLUDE_TLS"); v != "" {
+		b, err := strconv.ParseBool(v)
+		if err != nil {
+			return Config{}, fmt.Errorf("invalid IPD_INCLUDE_TLS: %w", err)
+		}
+
+		cfg.Metadata.IncludeTLS = b
+	}
+
+	if v := os.Getenv("IPD_INCLUDE_PREFERENCES"); v != "" {
+		b, err := strconv.ParseBool(v)
+		if err != nil {
+			return Config{}, fmt.Errorf("invalid IPD_INCLUDE_PREFERENCES: %w", err)
+		}
+
+		cfg.Metadata.IncludeClientPreferences = b
+	}
+
+	if v := os.Getenv("IPD_INCLUDE_ORIGIN"); v != "" {
+		b, err := strconv.ParseBool(v)
+		if err != nil {
+			return Config{}, fmt.Errorf("invalid IPD_INCLUDE_ORIGIN: %w", err)
+		}
+
+		cfg.Metadata.IncludeOriginContext = b
+	}
+
+	if v := os.Getenv("IPD_INCLUDE_CLIENT_HINTS"); v != "" {
+		b, err := strconv.ParseBool(v)
+		if err != nil {
+			return Config{}, fmt.Errorf("invalid IPD_INCLUDE_CLIENT_HINTS: %w", err)
+		}
+
+		cfg.Metadata.IncludeClientHints = b
+	}
+
+	if v := os.Getenv("IPD_INCLUDE_PROXY"); v != "" {
+		b, err := strconv.ParseBool(v)
+		if err != nil {
+			return Config{}, fmt.Errorf("invalid IPD_INCLUDE_PROXY: %w", err)
+		}
+
+		cfg.Metadata.IncludeProxyDetails = b
+	}
+
+	if v := os.Getenv("IPD_INCLUDE_HEADERS"); v != "" {
+		b, err := strconv.ParseBool(v)
+		if err != nil {
+			return Config{}, fmt.Errorf("invalid IPD_INCLUDE_HEADERS: %w", err)
+		}
+
+		cfg.Metadata.IncludeRequestHeaders = b
 	}
 
 	if v := strings.TrimSpace(os.Getenv("IPD_LOG_FORMAT")); v != "" {

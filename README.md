@@ -32,6 +32,13 @@ All knobs are exposed via environment variables prefixed with `IPD_`. Common opt
 | `RESOLVE_TIMEOUT`                | `500ms` | Reverse DNS lookup timeout per request.                                                                           |
 | `INCLUDE_UA`                     | `true`  | Attach the `User-Agent` header to responses.                                                                      |
 | `INCLUDE_TS`                     | `true`  | Emit the current UTC timestamp.                                                                                   |
+| `INCLUDE_CONNECTION`             | `true`  | Include protocol/host/remote address connection data in responses (and HTML).                                    |
+| `INCLUDE_TLS`                    | `true`  | Include TLS session details in responses (and HTML).                                                              |
+| `INCLUDE_PREFERENCES`            | `true`  | Include client preference headers in responses (and HTML).                                                        |
+| `INCLUDE_ORIGIN`                 | `true`  | Include origin context headers in responses (and HTML).                                                           |
+| `INCLUDE_CLIENT_HINTS`           | `true`  | Include User-Agent Client Hints in responses (and HTML).                                                          |
+| `INCLUDE_PROXY`                  | `false` | Include proxy-related headers in responses (and HTML) when enabled.                                               |
+| `INCLUDE_HEADERS`                | `false` | Include full request headers in responses (and HTML) when enabled.                                                |
 | `LOG_LEVEL`                      | `info`  | One of `debug`, `info`, `warn`, `error`.                                                                          |
 | `LOG_FORMAT`                     | `text`  | `text` or `json` output.                                                                                          |
 

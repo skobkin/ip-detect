@@ -57,7 +57,7 @@ func (h *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		"path", r.URL.Path,
 		"status", lrw.status,
 		"ip", data.IPAddress,
-		"hostname", data.Hostname,
+		"hostname", hostnameValue(data.Hostname),
 		"duration", time.Since(start),
 	)
 }
@@ -71,7 +71,7 @@ func (h *handler) respondHTML(w http.ResponseWriter, data clientinfo.Data) {
 		PlainPath: "/plain",
 	}
 
-	if !data.Timestamp.IsZero() {
+	if data.Timestamp != nil {
 		model.Timestamp = data.Timestamp.Format(time.DateTime)
 	}
 
@@ -95,6 +95,13 @@ func (h *handler) respondPlain(w http.ResponseWriter, data clientinfo.Data) {
 	if _, err := fmt.Fprintf(w, "%s\n", data.IPAddress); err != nil {
 		h.logger.Error("plaintext response failed", "error", err)
 	}
+}
+
+func hostnameValue(hostname *string) string {
+	if hostname == nil {
+		return ""
+	}
+	return *hostname
 }
 
 type loggingResponseWriter struct {
