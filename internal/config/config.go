@@ -12,10 +12,13 @@ import (
 )
 
 const (
-	defaultReadTimeout     = 5 * time.Second
-	defaultWriteTimeout    = 5 * time.Second
-	defaultShutdownTimeout = 10 * time.Second
-	defaultLookupTimeout   = 500 * time.Millisecond
+	defaultReadTimeout       = 5 * time.Second
+	defaultWriteTimeout      = 5 * time.Second
+	defaultShutdownTimeout   = 10 * time.Second
+	defaultLookupTimeout     = 500 * time.Millisecond
+	defaultReadHeaderTimeout = 5 * time.Second
+	defaultIdleTimeout       = 30 * time.Second
+	defaultMaxHeaderBytes    = 1 << 20
 )
 
 // Config aggregates all configuration sections.
@@ -29,10 +32,13 @@ type Config struct {
 
 // ServerConfig controls HTTP server behavior.
 type ServerConfig struct {
-	Addr            string
-	ReadTimeout     time.Duration
-	WriteTimeout    time.Duration
-	ShutdownTimeout time.Duration
+	Addr              string
+	ReadTimeout       time.Duration
+	WriteTimeout      time.Duration
+	ReadHeaderTimeout time.Duration
+	IdleTimeout       time.Duration
+	MaxHeaderBytes    int
+	ShutdownTimeout   time.Duration
 }
 
 // ProxyConfig governs how proxy headers are trusted.
@@ -70,13 +76,16 @@ type LoggingConfig struct {
 func Default() Config {
 	return Config{
 		Server: ServerConfig{
-			Addr:            ":8080",
-			ReadTimeout:     defaultReadTimeout,
-			WriteTimeout:    defaultWriteTimeout,
-			ShutdownTimeout: defaultShutdownTimeout,
+			Addr:              ":8080",
+			ReadTimeout:       defaultReadTimeout,
+			WriteTimeout:      defaultWriteTimeout,
+			ReadHeaderTimeout: defaultReadHeaderTimeout,
+			IdleTimeout:       defaultIdleTimeout,
+			MaxHeaderBytes:    defaultMaxHeaderBytes,
+			ShutdownTimeout:   defaultShutdownTimeout,
 		},
 		Proxy: ProxyConfig{
-			TrustForwarded: true,
+			TrustForwarded: false,
 			TrustedSubnets: nil,
 		},
 		Resolver: ResolverConfig{
@@ -125,6 +134,33 @@ func Load() (Config, error) {
 		}
 
 		cfg.Server.WriteTimeout = d
+	}
+
+	if v := os.Getenv("IPD_READ_HEADER_TIMEOUT"); v != "" {
+		d, err := time.ParseDuration(v)
+		if err != nil {
+			return Config{}, fmt.Errorf("invalid IPD_READ_HEADER_TIMEOUT: %w", err)
+		}
+
+		cfg.Server.ReadHeaderTimeout = d
+	}
+
+	if v := os.Getenv("IPD_IDLE_TIMEOUT"); v != "" {
+		d, err := time.ParseDuration(v)
+		if err != nil {
+			return Config{}, fmt.Errorf("invalid IPD_IDLE_TIMEOUT: %w", err)
+		}
+
+		cfg.Server.IdleTimeout = d
+	}
+
+	if v := os.Getenv("IPD_MAX_HEADER_BYTES"); v != "" {
+		n, err := strconv.Atoi(v)
+		if err != nil || n <= 0 {
+			return Config{}, fmt.Errorf("invalid IPD_MAX_HEADER_BYTES: %s", v)
+		}
+
+		cfg.Server.MaxHeaderBytes = n
 	}
 
 	if v := os.Getenv("IPD_SHUTDOWN_TIMEOUT"); v != "" {

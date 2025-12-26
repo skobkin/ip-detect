@@ -26,10 +26,13 @@ func New(cfg config.Config, logger *slog.Logger) (*App, error) {
 	}
 
 	srv := &http.Server{
-		Addr:         cfg.Server.Addr,
-		Handler:      handler,
-		ReadTimeout:  cfg.Server.ReadTimeout,
-		WriteTimeout: cfg.Server.WriteTimeout,
+		Addr:              cfg.Server.Addr,
+		Handler:           handler,
+		ReadTimeout:       cfg.Server.ReadTimeout,
+		WriteTimeout:      cfg.Server.WriteTimeout,
+		ReadHeaderTimeout: cfg.Server.ReadHeaderTimeout,
+		IdleTimeout:       cfg.Server.IdleTimeout,
+		MaxHeaderBytes:    cfg.Server.MaxHeaderBytes,
 	}
 
 	return &App{cfg: cfg, logger: logger, httpServer: srv}, nil

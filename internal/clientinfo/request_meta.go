@@ -2,7 +2,6 @@ package clientinfo
 
 import (
 	"crypto/tls"
-	"fmt"
 	"net/http"
 	"sort"
 	"strconv"
@@ -37,8 +36,8 @@ func buildTLSInfo(r *http.Request) *TLSInfo {
 	}
 
 	info := TLSInfo{
-		Version:            stringPtr(tlsVersionName(r.TLS.Version)),
-		CipherSuite:        stringPtr(tlsCipherSuiteName(r.TLS.CipherSuite)),
+		Version:            stringPtr(tls.VersionName(r.TLS.Version)),
+		CipherSuite:        stringPtr(tls.CipherSuiteName(r.TLS.CipherSuite)),
 		ServerName:         stringPtr(r.TLS.ServerName),
 		NegotiatedProtocol: stringPtr(r.TLS.NegotiatedProtocol),
 	}
@@ -272,43 +271,4 @@ func stringPtr(value string) *string {
 		return nil
 	}
 	return &value
-}
-
-func tlsVersionName(version uint16) string {
-	switch version {
-	case tls.VersionTLS13:
-		return "TLS 1.3"
-	case tls.VersionTLS12:
-		return "TLS 1.2"
-	case tls.VersionTLS11:
-		return "TLS 1.1"
-	case tls.VersionTLS10:
-		return "TLS 1.0"
-	}
-
-	if version == 0 {
-		return ""
-	}
-
-	return fmt.Sprintf("0x%04x", version)
-}
-
-func tlsCipherSuiteName(id uint16) string {
-	if id == 0 {
-		return ""
-	}
-
-	for _, suite := range tls.CipherSuites() {
-		if suite.ID == id {
-			return suite.Name
-		}
-	}
-
-	for _, suite := range tls.InsecureCipherSuites() {
-		if suite.ID == id {
-			return suite.Name
-		}
-	}
-
-	return fmt.Sprintf("0x%04x", id)
 }

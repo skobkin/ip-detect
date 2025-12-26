@@ -25,8 +25,11 @@ All knobs are exposed via environment variables prefixed with `IPD_`. Common opt
 |----------------------------------|---------|-------------------------------------------------------------------------------------------------------------------|
 | `ADDR`                           | `:8080` | Bind address/port.                                                                                                |
 | `READ_TIMEOUT` / `WRITE_TIMEOUT` | `5s`    | HTTP read/write limits.                                                                                           |
+| `READ_HEADER_TIMEOUT`            | `5s`    | Timeout for reading request headers.                                                                              |
+| `IDLE_TIMEOUT`                   | `30s`   | Keep-alive idle timeout.                                                                                          |
+| `MAX_HEADER_BYTES`               | `1048576` | Maximum request header size in bytes.                                                                           |
 | `SHUTDOWN_TIMEOUT`               | `10s`   | Graceful shutdown timeout.                                                                                        |
-| `TRUST_FORWARDED`                | `true`  | Whether to honor `X-Forwarded-For` / `X-Real-IP`.                                                                 |
+| `TRUST_FORWARDED`                | `false` | Whether to honor `X-Forwarded-For` / `X-Real-IP`.                                                                 |
 | `TRUSTED_SUBNETS`                | ``      | Comma-separated CIDRs required to trust proxy headers (empty = trust every proxy when `TRUST_FORWARDED` is true). |
 | `RESOLVE_PTR`                    | `true`  | Resolve PTR records for the detected IP.                                                                          |
 | `RESOLVE_TIMEOUT`                | `500ms` | Reverse DNS lookup timeout per request.                                                                           |
@@ -43,8 +46,16 @@ All knobs are exposed via environment variables prefixed with `IPD_`. Common opt
 | `LOG_FORMAT`                     | `text`  | `text` or `json` output.                                                                                          |
 
 ## Docker
+
+### Image
+
 An Alpine-based multi-stage build is provided:
+
 ```bash
 docker build -t skobkin/ip-detect .
 docker run --rm -p 8080:8080 skobkin/ip-detect
 ```
+
+### Compose stack
+
+You can find example stack [here](https://git.skobk.in/skobkin/docker-stacks/src/branch/master/ip-detect).
