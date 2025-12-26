@@ -9,6 +9,17 @@ import (
 )
 
 func TestResolveClientIP(t *testing.T) {
+	t.Run("forwarded header ignored when untrusted", func(t *testing.T) {
+		cfg := config.ProxyConfig{TrustForwarded: false}
+		req := httptest.NewRequest("GET", "http://example.com", nil)
+		req.RemoteAddr = "203.0.113.10:1234"
+		req.Header.Set("X-Forwarded-For", "198.51.100.3")
+
+		if got := resolveClientIP(req, cfg); got != "203.0.113.10" {
+			t.Fatalf("expected remote IP, got %s", got)
+		}
+	})
+
 	t.Run("forwarded header respected", func(t *testing.T) {
 		cfg := config.ProxyConfig{TrustForwarded: true}
 		req := httptest.NewRequest("GET", "http://example.com", nil)

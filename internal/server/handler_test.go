@@ -156,6 +156,7 @@ func TestConnectionUsesForwardedAddress(t *testing.T) {
 	cfg := config.Default()
 	cfg.Resolver.EnableReverseDNS = false
 	cfg.Metadata.IncludeConnection = true
+	cfg.Proxy.TrustForwarded = true
 
 	handler := newTestHandlerWithConfig(t, cfg)
 
