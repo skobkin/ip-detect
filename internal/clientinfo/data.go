@@ -107,24 +107,31 @@ func Collect(ctx context.Context, r *http.Request, cfg config.Config) Data {
 
 	data.Locale = stringPtr(locale)
 	data.PreferredLanguage = stringPtr(preferred)
+
 	if cfg.Metadata.IncludeConnection {
 		data.Connection = buildConnectionInfo(r, ipAddress)
 	}
+
 	if cfg.Metadata.IncludeTLS {
 		data.TLS = buildTLSInfo(r)
 	}
+
 	if cfg.Metadata.IncludeProxyDetails {
 		data.Proxy = buildProxyInfo(r)
 	}
+
 	if cfg.Metadata.IncludeClientPreferences {
 		data.Preferences = buildClientPreferences(r)
 	}
+
 	if cfg.Metadata.IncludeOriginContext {
 		data.OriginContext = buildOriginContext(r)
 	}
+
 	if cfg.Metadata.IncludeClientHints {
 		data.ClientHints = buildClientHints(r)
 	}
+
 	if cfg.Metadata.IncludeRequestHeaders {
 		data.RequestHeaders = collectRequestHeaders(r)
 	}

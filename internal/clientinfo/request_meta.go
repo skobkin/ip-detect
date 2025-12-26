@@ -8,6 +8,11 @@ import (
 	"strings"
 )
 
+const (
+	headerEntryExtraCapacity = 2
+	forwardedParamParts      = 2
+)
+
 func buildConnectionInfo(r *http.Request, resolvedIP string) *ConnectionInfo {
 	remoteAddr := stringPtr(resolvedIP)
 	if remoteAddr == nil {
@@ -126,7 +131,7 @@ func collectRequestHeaders(r *http.Request) []HeaderEntry {
 		return nil
 	}
 
-	entries := make([]HeaderEntry, 0, len(r.Header)+2)
+	entries := make([]HeaderEntry, 0, len(r.Header)+headerEntryExtraCapacity)
 
 	if host := strings.TrimSpace(r.Host); host != "" {
 		entries = append(entries, HeaderEntry{Key: "Host", Value: host})
@@ -151,6 +156,7 @@ func collectRequestHeaders(r *http.Request) []HeaderEntry {
 			if value == "" {
 				continue
 			}
+
 			cleaned = append(cleaned, value)
 		}
 
@@ -208,6 +214,7 @@ func headerValue(r *http.Request, key string) string {
 		if value == "" {
 			continue
 		}
+
 		cleaned = append(cleaned, value)
 	}
 
@@ -222,7 +229,9 @@ func firstHeaderToken(value string) string {
 	if value == "" {
 		return ""
 	}
+
 	parts := strings.Split(value, ",")
+
 	return strings.TrimSpace(parts[0])
 }
 
@@ -240,8 +249,8 @@ func forwardedParam(value, key string) string {
 				continue
 			}
 
-			parts := strings.SplitN(param, "=", 2)
-			if len(parts) != 2 {
+			parts := strings.SplitN(param, "=", forwardedParamParts)
+			if len(parts) != forwardedParamParts {
 				continue
 			}
 
@@ -262,6 +271,7 @@ func hasPtr(values ...*string) bool {
 			return true
 		}
 	}
+
 	return false
 }
 
@@ -270,5 +280,6 @@ func stringPtr(value string) *string {
 	if value == "" {
 		return nil
 	}
+
 	return &value
 }

@@ -101,6 +101,7 @@ func hostnameValue(hostname *string) string {
 	if hostname == nil {
 		return ""
 	}
+
 	return *hostname
 }
 
