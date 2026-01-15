@@ -263,8 +263,8 @@
         {{ end }}
 
         {{ if .Data.TLS }}
-        <section class="section">
-            <h2>TLS</h2>
+        <details class="section">
+            <summary>TLS</summary>
             <dl>
                 {{ if .Data.TLS.Version }}
                 <dt>Version</dt>
@@ -286,12 +286,12 @@
                 <dd>{{ .Data.TLS.NegotiatedProtocol }}</dd>
                 {{ end }}
             </dl>
-        </section>
+        </details>
         {{ end }}
 
         {{ if .Data.Proxy }}
-        <section class="section">
-            <h2>Proxy</h2>
+        <details class="section">
+            <summary>Proxy</summary>
             <dl>
                 {{ if .Data.Proxy.ForwardedFor }}
                 <dt>X-Forwarded-For</dt>
@@ -323,7 +323,7 @@
                 <dd>{{ .Data.Proxy.Via }}</dd>
                 {{ end }}
             </dl>
-        </section>
+        </details>
         {{ end }}
 
         {{ if .Data.Preferences }}
