@@ -4,6 +4,8 @@
 
 A tiny Go service that returns your remote address metadata in HTML, JSON, or plain text. It mirrors the old PHP utility while adding reverse DNS lookups, request logging, and a refreshed UI.
 
+![Web UI screenshot](docs/screenshot.webp)
+
 ## Requirements
 - Go 1.25 or newer
 
