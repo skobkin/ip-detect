@@ -3,21 +3,21 @@ when:
 
 steps:
   lint:
-    image: golangci/golangci-lint:v2.8-alpine
+    image: golangci/golangci-lint:v2.15-alpine
     environment:
       XDG_CACHE_HOME: /tmp/.cache
     commands:
       - golangci-lint run
 
   test:
-    image: golang:1.25
+    image: golang:1.27
     environment:
       GOCACHE: /tmp/.gocache
     commands:
       - go test ./...
 
   build:
-    image: golang:1.25
+    image: golang:1.27
     environment:
       GOCACHE: /tmp/.gocache
     commands:

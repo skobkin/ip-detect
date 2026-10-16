@@ -7,7 +7,7 @@ A tiny Go service that returns your remote address metadata in HTML, JSON, or pl
 ![Web UI screenshot](docs/screenshot.webp)
 
 ## Requirements
-- Go 1.25 or newer
+- Go 1.27 or newer
 
 ## Run locally
 ```bash

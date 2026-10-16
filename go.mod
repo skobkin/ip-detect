@@ -1,3 +1,3 @@
 module git.skobk.in/skobkin/ip-detect
 
-go 1.25
+go 1.27
